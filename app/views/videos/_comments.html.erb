@@ -1,0 +1,14 @@
+コメント (<%= @video.comments.count %>)
+<hr>
+<% @video.comments.each do |comment| %>
+    作成者: <%= comment.user.email %>, <%= time_ago_in_words comment.created_at %> 前
+    <%= simple_format comment.body %>
+    <p><%= link_to "削除", comment, method: :delete, remote: true, data: {confirm: "削除してもよろしいですか？"} if current_user && (current_user == comment.user) %></p>
+<% end %>
+<%= form_for Comment.new, remote: true do |f| %>
+    <div class="form-group">
+        <%= f.hidden_field :video_id, value: @video.id %>
+        <%= f.text_area :body, class: "form-control" %>
+    </div>
+    <%= f.submit "作成", class: "btn btn-danger" %>
+<% end %>

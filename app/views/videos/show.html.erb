@@ -1,0 +1,20 @@
+<%= video_tag @video.file.url, controls: true, class: "w-100" if @video.file? %>
+
+<h4>
+  <%= @video.title %>
+</h4>
+作成者：<%= @video.user.email %>
+<%= simple_format @video.description %>
+
+
+View:  <%= @video.view_count.to_i %>
+
+<br>
+<% if current_user && (@video.user == current_user) %>
+  <%= link_to "修正", edit_video_path(@video), class: "btn btn-danger" %>
+  <%= link_to "削除", @video, method: :delete, data: {confirm: "削除してもよろしいでしょうか？"}, class: "btn btn-outline-danger" %>
+<% end %>
+<br><br>
+<div id="comments">
+  <%= render "videos/comments" %>
+</div>
